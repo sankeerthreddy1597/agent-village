@@ -1,0 +1,300 @@
+:root {
+  --ink: #2b2233;
+  --muted: #6b6275;
+  --card: rgba(255, 255, 255, 0.82);
+  --shadow: 0 8px 30px rgba(60, 40, 90, 0.15);
+  font-family: "Nunito", system-ui, sans-serif;
+  color: var(--ink);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+  background: linear-gradient(#9fd4ff 0%, #d4ecff 55%, #fbe9f3 100%);
+}
+
+#app {
+  position: fixed;
+  inset: 0;
+}
+
+#app canvas {
+  display: block;
+}
+
+.labels {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+/* ---------- HUD ---------- */
+
+.card {
+  position: fixed;
+  background: var(--card);
+  backdrop-filter: blur(10px);
+  border-radius: 18px;
+  box-shadow: var(--shadow);
+  padding: 14px 16px;
+}
+
+.hud {
+  top: 16px;
+  left: 16px;
+  width: 280px;
+}
+
+.hud h1 {
+  margin: 0 0 6px;
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #f7b955;
+}
+.dot.connected {
+  background: #4cc47a;
+  box-shadow: 0 0 0 3px rgba(76, 196, 122, 0.2);
+}
+.dot.disconnected {
+  background: #ef6f6c;
+}
+
+.buttons {
+  display: flex;
+  gap: 8px;
+  margin: 12px 0;
+}
+
+button {
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  border: none;
+  border-radius: 999px;
+  padding: 7px 12px;
+  background: #fff;
+  color: var(--ink);
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+  transition: transform 0.1s;
+}
+button:hover {
+  transform: translateY(-1px);
+}
+button:active {
+  transform: translateY(1px);
+}
+#spawn {
+  background: #ff8fab;
+  color: #fff;
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 12px;
+  font-size: 12px;
+  color: var(--muted);
+}
+.legend span,
+.log .meta {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+.legend i,
+.log .meta i {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.hint {
+  margin: 10px 0 0;
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.log {
+  top: 16px;
+  right: 16px;
+  bottom: 16px;
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+}
+.log h2 {
+  margin: 0 0 8px;
+  font-size: 14px;
+  font-weight: 800;
+}
+.log ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;
+  flex: 1;
+}
+.log li {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 7px 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  font-size: 13px;
+  animation: slide-in 0.25s ease-out;
+}
+.log .meta {
+  font-size: 11px;
+  color: var(--muted);
+}
+
+@keyframes slide-in {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+}
+
+@media (max-width: 900px) {
+  .log {
+    display: none;
+  }
+  .hud {
+    right: 16px;
+    width: auto;
+  }
+}
+
+/* ---------- In-world labels ---------- */
+
+.bubble {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+
+.cloud {
+  position: relative;
+  max-width: 190px;
+  padding: 8px 12px;
+  background: #fff;
+  border-radius: 18px;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.3;
+  text-align: center;
+  box-shadow: var(--shadow);
+  animation: pop 0.3s cubic-bezier(0.3, 1.6, 0.5, 1);
+}
+.cloud.empty {
+  display: none;
+}
+.cloud span {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Zoomed out: smaller, single-line clouds so neighbours don't collide */
+.labels.far .cloud {
+  max-width: 120px;
+  padding: 4px 8px;
+  font-size: 10px;
+  border-radius: 12px;
+}
+.labels.far .cloud span {
+  -webkit-line-clamp: 1;
+}
+.labels.far .bubble {
+  gap: 10px;
+}
+.labels.far .tag {
+  display: none;
+}
+/* the little thought-bubble dots */
+.cloud::before,
+.cloud::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  background: inherit;
+  border-radius: 50%;
+  box-shadow: var(--shadow);
+}
+.cloud::before {
+  width: 10px;
+  height: 10px;
+  bottom: -9px;
+  margin-left: -8px;
+}
+.cloud::after {
+  width: 5px;
+  height: 5px;
+  bottom: -16px;
+  margin-left: -2px;
+}
+.cloud.thought {
+  font-style: italic;
+  font-weight: 600;
+  color: var(--muted);
+}
+.cloud.tool {
+  background: #fffbea;
+}
+.cloud.success {
+  background: #e3f9e5;
+}
+.cloud.error {
+  background: #ffe3e3;
+}
+
+.tag {
+  font-size: 10px;
+  font-weight: 800;
+  padding: 2px 8px;
+  border-radius: 999px;
+  color: var(--ink);
+  background: color-mix(in srgb, var(--role) 55%, white);
+  white-space: nowrap;
+}
+
+.island-sign {
+  font-size: 13px;
+  font-weight: 800;
+  padding: 4px 12px;
+  border-radius: 8px;
+  background: #fff4e0;
+  border: 2px solid #c08552;
+  white-space: nowrap;
+}
+
+@keyframes pop {
+  from {
+    transform: scale(0.6);
+    opacity: 0;
+  }
+}

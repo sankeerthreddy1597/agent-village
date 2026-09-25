@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Agent Village</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@500;700;800&display=swap" rel="stylesheet" />
+  </head>
+  <body>
+    <div id="app"></div>
+
+    <div class="card hud">
+      <h1>🏘️ Agent Village</h1>
+      <div class="status"><span class="dot" id="status-dot"></span><span id="status-text">connecting…</span></div>
+      <div class="buttons">
+        <button id="spawn">✨ New mock issue</button>
+        <button id="overview">🗺️ Overview</button>
+      </div>
+      <div class="legend" id="legend"></div>
+      <p class="hint">Drag to orbit · scroll to zoom · double-click an island to focus</p>
+    </div>
+
+    <aside class="card log">
+      <h2>Activity</h2>
+      <ul id="log"></ul>
+    </aside>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

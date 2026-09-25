@@ -1,0 +1,9 @@
+{
+  "name": "agent-village",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "pnpm -r --parallel --stream dev",
+    "typecheck": "pnpm -r --filter \"./apps/*\" exec tsc --noEmit"
+  }
+}
